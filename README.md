@@ -17,18 +17,12 @@ PROJECT WEB ABOUT SELLING CLOTHES
 ## Features:
 
 - Authentication.
-- Filter recipes by tags.
 - Ingredient shopping list.
-- Post comment on recipes.
-- Rate recipes.
 - Reply to comments.
-- Search recipes by words.
-- Submit blogs.
-- Submit recipes.
+- Search items by words.
 - Upload images to cloudinary.
 - View bookmarks.
-- View recipes.
-- View relevant recipes.
+
 
 ## Prototypes:
 
