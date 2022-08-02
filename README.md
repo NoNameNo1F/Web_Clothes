@@ -11,25 +11,32 @@ PROJECT WEB ABOUT SELLING CLOTHES
     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="nodejs" height="48" width="48" />
     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="expressjs" height="48" width="48" />
     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="mongodb" height="48" width="48" />
-</p>
+    <img src="https://cdn.iconscout.com/icon/free/png-64/stripe-2-498440.png" alt="stripe" height="48" width="48" />
+</p>  
 
 
 ## Features:
 
-- Authentication.
-- Ingredient shopping list.
-- Reply to comments.
-- Search items by words.
-- Upload images to cloudinary.
-- View bookmarks.
+- Admin:
++ [ ] Dashboard
++ [ ] Management Users 
++ [ ] Management Products
++ [ ] Transactions
++ [ ] Analysis
++ [ ] Sales
++ [ ] Messages
++ [ ] Mail
++ [ ] Feedback
++ [ ] Reports
 
-
+- Client:
++ [ ] Home Page
++ [ ] Login/Register Page
++ [ ] Product Page
++ [ ] Information Details Page
++ [ ] Order
++ [ ] Checkout
 ## Prototypes:
-
-<!-- <a
-href="https://www.figma.com/file/7u8pMRELjeydYYxmHX3nq3/501st-Recipe?node-id=0%3A1">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="figma" height="48" width="48" />
-</a> -->
 
 ## TODOs:
 
