@@ -8,8 +8,9 @@ const authRoute = require("./routes/auth");
 const productRoute = require("./routes/product");
 const cartRoute = require("./routes/cart");
 const orderRoute = require("./routes/order");
+//const stripeRoute = require('./routes/stripe');
 dotenv.config();
-
+//CONNECT TO DATABASE
 mongoose
     .connect(
         (process.env.MONGODB_URL)
@@ -26,12 +27,8 @@ app.use("/api/user", userRoute);
 app.use("/api/product", productRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/order", orderRoute);
+//app.use('/api/checkout', stripeRoute);
 
-
-app.get("/", () => {
-    console.log("hhh");
-});
-
-app.listen(5000, () => {
-    console.log("Backend server is running!");
+app.listen(process.env.PORT || 5000, () => {
+    console.log("Backend server is running...!");
 });
