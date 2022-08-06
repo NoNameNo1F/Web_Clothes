@@ -2,6 +2,8 @@ import { Badge } from '@material-ui/core'
 import { Search, ShoppingCartOutlined } from '@material-ui/icons'
 import React from 'react'
 import styled from 'styled-components'
+import { useSelector} from "react-redux"
+import { Link } from 'react-router-dom'
 
 const Container = styled.div`
     height: 60px;
@@ -60,31 +62,34 @@ const Input = styled.input`
 `
 
 const Navbar = () => {
-  return (
-    <Container>
-        <Wrapper>
-            <Left>
-                <Language>Trang Chủ</Language>
-                <SearchContainer>
-                    <Input/>
-                    <Search style={{color: "gray", fontSize:16}}/>
-                </SearchContainer>
-            </Left>
-            <Center><Logo>Shopee Fake</Logo></Center>
-            <Right>
-                <MenuItem>Đăng nhập</MenuItem>
-                <MenuItem>Đăng ký</MenuItem>
-                <MenuItem>
-                    <Badge badgeContent={4} color="primary">
-                        <ShoppingCartOutlined/>
-                    </Badge>
-                </MenuItem>
+    const quantity = useSelector(state => state.cart.quantity)
+
+    return (
+        <Container>
+            <Wrapper>
+                <Left>
+                    <Language>Trang Chủ</Language>
+                    <SearchContainer>
+                        <Input/>
+                        <Search style={{color: "gray", fontSize:16}}/>
+                    </SearchContainer>
+                </Left>
+                <Center><Logo>Shopee Fake</Logo></Center>
+                <Right>
+                    <MenuItem>Đăng nhập</MenuItem>
+                    <MenuItem>Đăng ký</MenuItem>
+                    <Link to = "/cart">
+                        <MenuItem>
+                            <Badge badgeContent={quantity} color="primary">
+                                <ShoppingCartOutlined/>
+                            </Badge>
+                        </MenuItem>
+                    </Link>
                 
-            
-            </Right>
-        </Wrapper>
-    </Container>
-  )
+                </Right>
+            </Wrapper>
+        </Container>
+    )
 }
 
 export default Navbar
