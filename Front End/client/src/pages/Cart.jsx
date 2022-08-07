@@ -1,8 +1,16 @@
 import { Add, Remove } from "@material-ui/icons"
+import { useSelector } from "react-redux"
 import styled from "styled-components"
 import Announcement from "../components/Anouncement"
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
+import StripeCheckout from "react-stripe-checkout"
+import { useState, useEffect } from "react"
+import { userRequest } from "../RequestMethod"
+import { useNavigate  } from "react-router-dom" 
+
+const STRIPEKEY = "pk_test_51LRtAXEjpd95HuXV93fuLfKOLVU8bLouKTuocOkFNXR6NrYn2BXG30ZaNZKgOZdvceYNsqAUXpENkMovv9yQpW1f00gpNPG0yn"
+// const STRIPEKEY = process.env.REACT_APP_STRIPE
 
 const Container = styled.div`
 
@@ -159,94 +167,113 @@ const Button = styled.button`
 `
 
 const Cart = () => {
-  return (
-    <Container>
-        <Navbar/>
-        <Announcement/>
-        <Wrapper>
-            <Title>YOUR BAG</Title>
-            <Top>
-                <TopButton>CONTINUE SHOPPING</TopButton>
-                
-                <TopTexts>
-                    <TopText>Shopping Bag(2)</TopText>
-                    <TopText>Your Wishlist (0)</TopText>
-                </TopTexts>
+    const cart = useSelector((state) => state.cart);
+    const [stripeToken, setStripeToken] = useState(null);
+    const history = useNavigate();
 
-                <TopButton type="filled">CHECKOUT NOW</TopButton>
-            </Top>
-            <Bottom>
-                <Info>
-                    <Product>
-                        <ProductDetail>
-                            <Image src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/289343072_1017445062118908_2868195483805170468_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=0debeb&_nc_ohc=L5cbNyt5oXMAX8dt9z5&_nc_ht=scontent.fsgn2-6.fna&oh=00_AT8VQnW5UT69wKFeCVf_h88AgagUmI07yvdEy1028smT1g&oe=62CE7A82"/>
-                            <Detail>
-                                <ProductName><b>Product: </b>SPORT SHIRT</ProductName>
-                                <ProductID><b>ID:</b>123456789</ProductID>
-                                <ProductColor color="black"/>
-                                <ProductSize><b>Size:</b>35</ProductSize>
-                            </Detail>
-                        </ProductDetail>
-                        <PriceDetail>
-                            <ProductAmountContainer>
-                                <Add/>
-                                <ProductAmount>2</ProductAmount>
-                                <Remove/>
-                            </ProductAmountContainer>
-                            <ProductPrice> 30$ </ProductPrice>
-                        </PriceDetail>
-                    </Product>
+    const onToken = (token) => {
+        setStripeToken(token);
+    }
+    //history("/success")
 
-                    <Hr/>
+    useEffect(() => {
+        const makeRequest = async () => {
+            try {
+                const res = await userRequest.post("/checkout/payment", {
+                    tokenId: stripeToken.id,
+                    amount: 50000
+                });
+                history("/success", {stripeData: res.data});
+                console.log("hihi");
+            } catch (error) {console.log("huhu");}
+        }
 
-                    <Product>
-                        <ProductDetail>
-                            <Image src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/289343072_1017445062118908_2868195483805170468_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=0debeb&_nc_ohc=L5cbNyt5oXMAX8dt9z5&_nc_ht=scontent.fsgn2-6.fna&oh=00_AT8VQnW5UT69wKFeCVf_h88AgagUmI07yvdEy1028smT1g&oe=62CE7A82"/>
-                            <Detail>
-                                <ProductName><b>Product: </b>SPORT SHIRT</ProductName>
-                                <ProductID><b>ID:</b>123456789</ProductID>
-                                <ProductColor color="black"/>
-                                <ProductSize><b>Size:</b>35</ProductSize>
-                            </Detail>
-                        </ProductDetail>
-                        <PriceDetail>
-                            <ProductAmountContainer>
-                                <Add/>
-                                <ProductAmount>2</ProductAmount>
-                                <Remove/>
-                            </ProductAmountContainer>
-                            <ProductPrice> 30$ </ProductPrice>
-                        </PriceDetail>
-                    </Product>
-                </Info>
-                <Summary>
-                    <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-                    <SummaryItem>
-                        <SummaryItemText>Subtotal</SummaryItemText>
-                        <SummaryItemPrice> 80$ </SummaryItemPrice>
-                    </SummaryItem>
+        stripeToken && makeRequest();
+    }, [stripeToken, cart.total, history]);
 
-                    <SummaryItem>
-                        <SummaryItemText>Estimated shipping</SummaryItemText>
-                        <SummaryItemPrice> 5.90$ </SummaryItemPrice>
-                    </SummaryItem>
+    console.log(stripeToken);
+    return (
+        <Container>
+            <Navbar/>
+            <Announcement/>
+            <Wrapper>
+                <Title>YOUR BAG</Title>
+                <Top>
+                    <TopButton>CONTINUE SHOPPING</TopButton>
+                    
+                    <TopTexts>
+                        <TopText>Shopping Bag(2)</TopText>
+                        <TopText>Your Wishlist (0)</TopText>
+                    </TopTexts>
 
-                    <SummaryItem>
-                        <SummaryItemText>Shipping discount</SummaryItemText>
-                        <SummaryItemPrice> -5.90$</SummaryItemPrice>
-                    </SummaryItem>
+                    <TopButton type="filled">CHECKOUT NOW</TopButton>
+                </Top>
+                <Bottom>
+                    <Info>
+                        { cart.products.map((product) => (
+                        <Product>
+                            <ProductDetail>
+                                <Image src={product.img}/>
+                                <Detail>
+                                    <ProductName><b>Product: </b>{product.title}</ProductName>
+                                    <ProductID><b>ID:</b>{product._id}</ProductID>
+                                    <ProductColor color={product.color}/>
+                                    <ProductSize><b>Size:</b>{product.size}</ProductSize>
+                                </Detail>
+                            </ProductDetail>
+                            <PriceDetail>
+                                <ProductAmountContainer>
+                                    <Add/>
+                                    <ProductAmount>{product.quantity}</ProductAmount>
+                                    <Remove/>
+                                </ProductAmountContainer>
+                                <ProductPrice> {product.price * product.quantity}vnđ </ProductPrice>
+                            </PriceDetail>
+                        </Product> 
+                        ))}
 
-                    <SummaryItem type="total">
-                        <SummaryItemText>Total</SummaryItemText>
-                        <SummaryItemPrice> 80$ </SummaryItemPrice>
-                    </SummaryItem>
-                    <Button>CHECKOUT NOW</Button>
-                </Summary>
-            </Bottom>
-        </Wrapper>
-        <Footer/>
-    </Container>
-  )
+                        <Hr/>
+
+                    </Info>
+                    <Summary>
+                        <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+                        <SummaryItem>
+                            <SummaryItemText>Subtotal</SummaryItemText>
+                            <SummaryItemPrice> {cart.total} </SummaryItemPrice>
+                        </SummaryItem>
+
+                        <SummaryItem>
+                            <SummaryItemText>Estimated shipping</SummaryItemText>
+                            <SummaryItemPrice> 5.90$ </SummaryItemPrice>
+                        </SummaryItem>
+
+                        <SummaryItem>
+                            <SummaryItemText>Shipping discount</SummaryItemText>
+                            <SummaryItemPrice> -5.90$</SummaryItemPrice>
+                        </SummaryItem>
+
+                        <SummaryItem type="total">
+                            <SummaryItemText>Total</SummaryItemText>
+                            <SummaryItemPrice> {cart.total} </SummaryItemPrice>
+                        </SummaryItem>
+                        <StripeCheckout
+                            name = "Group 7 shop"
+                            image = ""
+                            billingAddress
+                            shippingAddress
+                            description = {`Your total is ${cart.total}vnd`}
+                            amount = {cart.total * 100}
+                            token = { onToken }
+                            stripeKey = { STRIPEKEY } 
+                        >
+                            <Button>CHECKOUT NOW</Button>
+                        </StripeCheckout>
+                    </Summary>
+                </Bottom>
+            </Wrapper>
+            <Footer/>
+        </Container>
+    )
 }
 
 export default Cart
