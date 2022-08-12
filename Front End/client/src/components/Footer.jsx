@@ -83,11 +83,7 @@ const Footer = () => {
             </Logo>
 
             <Description>
-                Đồ án Nhập môn công nghệ phần mềm
-                Đồ án Nhập môn công nghệ phần mềm 
-                Đồ án Nhập môn công nghệ phần mềm 
-                Đồ án Nhập môn công nghệ phần mềm 
-                Đồ án Nhập môn công nghệ phần mềm   
+                Đồ án Nhập môn công nghệ phần mềm nhóm 7 
             </Description>
 
             <SocialContainer>

@@ -68,16 +68,29 @@ const Navbar = () => {
         <Container>
             <Wrapper>
                 <Left>
-                    <Language>Trang Chủ</Language>
+                    <Language>
+                        <Link to = "/" style={{textDecoration: 'none'}}>
+                            Trang Chủ
+                        </Link>
+                    </Language>
                     <SearchContainer>
                         <Input/>
                         <Search style={{color: "gray", fontSize:16}}/>
                     </SearchContainer>
                 </Left>
-                <Center><Logo>Shopee Fake</Logo></Center>
+                <Center><Logo>Group 7 shop</Logo></Center>
                 <Right>
-                    <MenuItem>Đăng nhập</MenuItem>
-                    <MenuItem>Đăng ký</MenuItem>
+                    <MenuItem>
+                    <Link to = "/login" style={{textDecoration: 'none'}}>
+                        Đăng nhập
+                    </Link>
+                       
+                    </MenuItem>
+                    <MenuItem>
+                        <Link to = "/register" style={{textDecoration: 'none'}}> 
+                            Đăng ký
+                        </Link>
+                    </MenuItem>
                     <Link to = "/cart">
                         <MenuItem>
                             <Badge badgeContent={quantity} color="primary">
