@@ -1,41 +1,42 @@
 import "./login.css";
 import * as React from "react";
-const Login = () => {
-  const [user, setUsername] = React.useState(user);
-  const [pword, setPassword] = React.useState(pword);
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/apiCalls";
 
-  const handleOnClick = (e) => {
+const Login = () => {
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const dispatch = useDispatch();
+
+  const handleClick = (e) => {
     e.preventDefault();
-    //
+    login(dispatch, { username, password });
   };
   return (
-    <div className="login">
-      <h1 className="loginTitle">Login</h1>
-      <form className="loginForm">
-        <div className="loginInput">
-          <label>UserName</label>
-          <input
-            type="text"
-            placeholder="Username"
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
-          />
-        </div>
-        <div className="loginInput">
-          <label>Password</label>
-          <input
-            type="password"
-            placeholder="**********"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-        </div>
-        <button className="loginButton" onClick={handleOnClick}>
-          Login
-        </button>
-      </form>
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <input
+        style={{ padding: 10, marginBottom: 20 }}
+        type="text"
+        placeholder="username"
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        style={{ padding: 10, marginBottom: 20 }}
+        type="password"
+        placeholder="password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={handleClick} style={{ padding: 10, width: 100 }}>
+        Login
+      </button>
     </div>
   );
 };
