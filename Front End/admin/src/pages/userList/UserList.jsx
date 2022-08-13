@@ -22,7 +22,7 @@ export default function UserList() {
         return (
           <div className="userListUser">
             <img className="userListImg" src={params.row.avatar} alt="" />
-            {params.row.userName}
+            {params.row.username}
           </div>
         );
       },
