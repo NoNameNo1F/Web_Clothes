@@ -13,7 +13,7 @@ const verifyToken = (req, res, next) => {
     } else {
         return res.status(401).json("You are not authenticated!");
     }
-}
+};
 
 const verifyTokenAndAuthorization = (req, res, next) => {
     verifyToken(req, res, () => {
@@ -22,8 +22,8 @@ const verifyTokenAndAuthorization = (req, res, next) => {
         } else {
             res.status(403).json("You are not allow to do that!");
         }
-    })
-}
+    });
+};
 
 const verifyTokenAndAdmin = (req, res, next) => {
     verifyToken(req, res, () => {
